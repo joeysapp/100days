@@ -9,17 +9,11 @@ char stack[25];
 int pointer = -1;
 
 int isStackEmpty(){
-	if (pointer == -1){
-		return true;
-	}
-	return false;
+	return pointer == -1;
 }
 
 int isStackFull(){
-	if (pointer == sizeof(stack)/sizeof(char)){
-		return true;
-	}
-	return false;
+	return pointer == sizeof(stack)/sizeof(char);
 }
 
 void pushElement(char c){
