@@ -40,6 +40,7 @@ int random_pick(int* array){
 int naive_search(int* array, int search){
 	for (int i = 0; i < size_of_array; i++){
 		if (search == array[i]){
+			//std::cout << "Found at " << i << "th loop" << std::endl;
 			return i;
 		}
 	}
@@ -51,12 +52,15 @@ int naive_search(int* array, int search){
 int binary_search(int* array, int search){
 	int left = 0;
 	int right = size_of_array-1;
+	int searches = 0;
 	while (true){
+		searches++;
 		if (left > right){
 			return -1;
 		}
 		int mid = std::floor((left+right)/2);
 		if (array[mid] == search){
+			//std::cout << "Found at " << searches << " searches" << std::endl;
 			return mid;
 		} else if (array[mid] < search){
 			left = mid + 1;
@@ -72,18 +76,23 @@ int main(int argc, char *argv[]){
 
 	double startTime, endTime;
 
-	int search_item = random_pick(sorted_array);
-	std::cout << "Looking for: " << search_item << std::endl;
+	int testing_its = 100;
+	std::cout << "Array of " << size_of_array << " items" << std::endl;
+	startTime = getRealTime();
+	for (int i = 0; i < testing_its; i++){
+		int search_item = random_pick(sorted_array);
+		naive_search(sorted_array, search_item);
+	}
+	endTime = getRealTime();
+	std::cout << "Naive search for " << testing_its << " items: " << (endTime - startTime) << std::endl;
 
 	startTime = getRealTime();
-	std::cout << "Position: " << naive_search(sorted_array, search_item) << std::endl;
+	for (int i = 0; i < testing_its; i++){
+		int search_item = random_pick(sorted_array);
+		binary_search(sorted_array, search_item);
+	}
 	endTime = getRealTime();
-	std::cout << "Time taken: " << (endTime - startTime) << std::endl;
-
-	startTime = getRealTime();
-	std::cout << "Position: " << binary_search(sorted_array, search_item) << std::endl;
-	endTime = getRealTime();
-	std::cout << "Time taken: " << (endTime - startTime) << std::endl;
+	std::cout << "Binary search for " << testing_its << " items: " << (endTime - startTime) << std::endl;
 
 
 
